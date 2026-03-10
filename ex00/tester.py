@@ -37,7 +37,7 @@ def run_tests():
             print(f'\n{WHITE}TEST_CASE = [{a}, {b}]{RESET}\n')
             print(f'+ {print_binary(a)}')
             print(f'  {print_binary(b)}')
-            print("------------------------------------------------------------------")
+            print("--------------------------------------------------------")
             print(f'{BLUE}  {print_binary(expected)}{RESET} - a + b')
             print(f'{GREEN}  {print_binary(result)}{RESET} - adder(a, b)\n')
 
