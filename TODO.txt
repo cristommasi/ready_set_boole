@@ -1,0 +1,14 @@
+You are not allowed to use any mathematical library, even the one included in your
+language’s standard library, unless explicitly stated otherwise.
+
+• For every exercise you may have to respect a given time and/or space complexity.
+(These will be checked during peer review.)
+
+• The time complexity is calculated relative to the number of executed instruc-
+tions
+
+• The space complexity is calculated relative to the maximum amount of memory
+allocated simultaneously
+
+• Both have to be calculated against the size of the function’s input (a number,
+the length of a string, etc...)
