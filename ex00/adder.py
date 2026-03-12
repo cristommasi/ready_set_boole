@@ -13,5 +13,5 @@ def adder(a: int, b: int) -> int:
         a = (a ^ b) & U32_MAX
         b = carry
         
-    return a
+    return a & U32_MAX
 

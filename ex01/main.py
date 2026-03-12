@@ -15,7 +15,8 @@ test_cases = [
     [25, 3], [0, 0], [15, 3], [1234, 5678], [1, 444], [7, 1], [15, 1], [255, 523], [234, 43], #regular expressions
     [U32_MAX, 0], [0, U32_MAX], [U32_MAX - 1, 1], [U32_MAX, 2], #should work and wrap up if exceeds limit
     [U64_MAX, 0], [-1, 5], [5, -1], [-2, -3], #will throw error
-    [65535, 65535], [65536, 65536]
+    [65535, 65535], [65536, 65536],
+    [244, 15]
 ]
 
 @beartype

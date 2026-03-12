@@ -13,11 +13,11 @@ def multiplier(a: int, b: int) -> int:
 
         if b & 1:
             RES = adder(RES, a)
-
+            
         a = (a << 1) & U32_MAX
         b = b >> 1
 
-    return RES
+    return RES & U32_MAX
 
 
 @beartype
@@ -32,7 +32,5 @@ def adder(a: int, b: int) -> int:
         a = (a ^ b) & U32_MAX
         b = carry
 
-    return a
-
-
+    return a & U32_MAX
 
