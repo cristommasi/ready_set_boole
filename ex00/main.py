@@ -48,7 +48,7 @@ def main():
 
         except ValueError as e:
 
-            print(f"{WHITE}TEST_CASE = [{a}, {b}] {RESET}\n\n{RED}{e}{RESET}\n")
+            print(f"\n{WHITE}TEST_CASE = [{a}, {b}] {RESET}\n\n{RED}{e}{RESET}\n")
 
             
 
