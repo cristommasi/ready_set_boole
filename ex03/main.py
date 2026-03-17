@@ -8,7 +8,6 @@ GREEN   = "\033[32m"
 BLUE    = "\033[34m"
 WHITE   = "\033[1;37m"
 
-U32_MAX = 4294967295
 
 false = [
     "0" #false
@@ -67,7 +66,7 @@ subject_test_cases = [
 ]
 
 longer_test_cases = [
-    "10&01|1111^!|&!>!|", #false
+    "10&01|1111^!|&!>!|", #true
 ]
 
 TEST_CASES = {
@@ -85,11 +84,8 @@ TEST_CASES = {
 }
 
 
-
-
 def main():
-
-
+    
     for title, tests in TEST_CASES.items():
 
         print(f'\n{WHITE}{title}{RESET}')
