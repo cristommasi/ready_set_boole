@@ -1,5 +1,25 @@
 from beartype import beartype
-import ast
+
+class Node(object):
+	pass
+
+class ValueNode(Node):
+     
+	def __init__(self, value):
+		self.value = value
+
+class UnaryNode(Node):
+     
+	def __init__(self, op, right):
+		self.op = op
+		self.right = right
+
+class BinaryNode(Node):
+     
+	def __init__(self, op, left, right):
+		self.op = op
+		self.left = left
+		self.right = right
 
 
 def parse_formula(formula: str):
@@ -12,16 +32,15 @@ def parse_formula(formula: str):
         if c not in allowed:
             raise ValueError(f'Error: Unknown Character: {c}')
         
-        if c.isdigit():
-            stack.append(ast.Constant(value=int(c)))
+        if c == '0' or c == '1':
+            stack.append(ValueNode(int(c)))
 
         elif c == '!':
 
-            if not len(stack):
+            if not stack:
                 raise ValueError(f'Error: Malformed formula: {formula}')
             right = stack.pop()
-            node = ast.UnaryOp(op=ast.Not(), operand=right)
-            stack.append(node)
+            stack.append(UnaryNode(c, right))
 
         else:
 
@@ -30,21 +49,38 @@ def parse_formula(formula: str):
             
             right = stack.pop()
             left = stack.pop()
-            if c == '&':
-                node = ast.BinOp(left=left, op=ast.BitAnd(), right=right)
-            elif c == '|':
-                node = ast.BinOp(left=left, op=ast.BitOr(), right=right)
-            elif c == '^':
-                node = ast.BinOp(left=left, op=ast.BitXor(), right=right)
-            elif c == '>':
-                node = ast.Compare(left=left, ops=[ast.LtE()], comparators=[right])
-            elif c == '=':
-                node = ast.Compare(left=left, ops=[ast.Eq()], comparators=[right])
+            stack.append(BinaryNode(c, left, right))
 
-            stack.append(node)
-    if len(stack) > 1:
-        raise ValueError(f"Malformed formula: leftover operands")
+
+    if len(stack) != 1:
+        raise ValueError(f'Error: Malformed formula: {formula}')
+    
     return stack[0]
+
+def eval_ast(node):
+
+    if isinstance(node, ValueNode):
+        return node.value
+
+    if isinstance(node, UnaryNode):
+        return int(not eval_ast(node.right))
+
+    if isinstance(node, BinaryNode):
+
+        left = eval_ast(node.left)
+        right = eval_ast(node.right)
+        if node.op == '&':
+            return left & right
+        if node.op == '|':
+            return left | right
+        if node.op == '^':
+            return left ^ right
+        if node.op == '>':
+            return int((not left) | right)
+        if node.op == '=':
+            return int(left == right)
+    raise ValueError("Unknown node type")
+
 
 
 @beartype
@@ -55,8 +91,4 @@ def eval_formula(formula: str) -> bool:
     
 
     node = parse_formula(formula)
-    tree = ast.Expression(body=node)
-    ast.fix_missing_locations(tree)
-    code = compile(tree, "<ast>", "eval")
-    result = eval(code)
-    return bool(result)
+    return bool(eval_ast(node))

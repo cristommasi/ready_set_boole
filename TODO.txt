@@ -12,3 +12,5 @@ allocated simultaneously
 
 • Both have to be calculated against the size of the function’s input (a number,
 the length of a string, etc...)
+
+
