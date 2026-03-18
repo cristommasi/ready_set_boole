@@ -1,85 +1,89 @@
 from beartype import beartype
 
-class Node(object):
-	pass
 
-class ValueNode(Node):
+class AST:
      
-	def __init__(self, value):
-		self.value = value
-
-class UnaryNode(Node):
-     
-	def __init__(self, op, right):
-		self.op = op
-		self.right = right
-
-class BinaryNode(Node):
-     
-	def __init__(self, op, left, right):
-		self.op = op
-		self.left = left
-		self.right = right
-
-
-def parse_formula(formula: str):
-
-    stack = []
-    allowed = "10!|&^>="
-
-    for c in formula:
-
-        if c not in allowed:
-            raise ValueError(f'Error: Unknown Character: {c}')
-        
-        if c == '0' or c == '1':
-            stack.append(ValueNode(int(c)))
-
-        elif c == '!':
-
-            if not stack:
-                raise ValueError(f'Error: Malformed formula: {formula}')
-            right = stack.pop()
-            stack.append(UnaryNode(c, right))
-
-        else:
-
-            if len(stack) < 2:
-                raise ValueError(f'Error: Malformed formula: {formula}')
-            
-            right = stack.pop()
-            left = stack.pop()
-            stack.append(BinaryNode(c, left, right))
-
-
-    if len(stack) != 1:
-        raise ValueError(f'Error: Malformed formula: {formula}')
+    class Node:
+        pass
     
-    return stack[0]
+    class ValueNode(Node):
 
-def eval_ast(node):
+        def __init__(self, value):
+            self.value = value
 
-    if isinstance(node, ValueNode):
-        return node.value
+    class UnaryNode(Node):
 
-    if isinstance(node, UnaryNode):
-        return int(not eval_ast(node.right))
+        def __init__(self, op, right):
+            self.op = op
+            self.right = right
 
-    if isinstance(node, BinaryNode):
+    class BinaryNode(Node):
 
-        left = eval_ast(node.left)
-        right = eval_ast(node.right)
-        if node.op == '&':
-            return left & right
-        if node.op == '|':
-            return left | right
-        if node.op == '^':
-            return left ^ right
-        if node.op == '>':
-            return int((not left) | right)
-        if node.op == '=':
-            return int(left == right)
-    raise ValueError("Unknown node type")
+        def __init__(self, op, left, right):
+            self.op = op
+            self.left = left
+            self.right = right
+
+    def __init__(self, allowed: str, formula: str):
+        self.allowed = allowed
+        self.root = self.create(formula)
+    
+    def create(self, formula: str):
+        stack = []
+
+        for c in formula:
+
+            if c not in self.allowed:
+                raise ValueError(f"Error: Unknown Character: {c}")
+
+            if c == '0' or c == '1':
+                stack.append(self.ValueNode(int(c)))
+
+            elif c == '!':
+                if not stack:
+                    raise ValueError(f"Error: Malformed formula: {formula}")
+                right = stack.pop()
+                stack.append(self.UnaryNode(c, right))
+
+            else:
+                if len(stack) < 2:
+                    raise ValueError(f"Error: Malformed formula: {formula}")
+                right = stack.pop()
+                left = stack.pop()
+                stack.append(self.BinaryNode(c, left, right))
+
+        if len(stack) != 1:
+            raise ValueError(f"Error: Malformed formula: {formula}")
+
+        return stack[0]
+
+    def eval(self, node = None):
+        if node is None:
+            node = self.root
+
+        if isinstance(node, self.ValueNode):
+            return node.value
+
+        if isinstance(node, self.UnaryNode):
+            return int(not self.eval(node.right))
+
+        if isinstance(node, self.BinaryNode):
+            left = self.eval(node.left)
+            right = self.eval(node.right)
+
+            if node.op == '&':
+                return left & right
+            if node.op == '|':
+                return left | right
+            if node.op == '^':
+                return left ^ right
+            if node.op == '>':
+                return int((not left) | right)
+            if node.op == '=':
+                return int(left == right)
+
+        raise ValueError("Unknown node type")
+
 
 
 
@@ -90,5 +94,6 @@ def eval_formula(formula: str) -> bool:
         raise ValueError("Inputs must be string")
     
 
-    node = parse_formula(formula)
-    return bool(eval_ast(node))
+    ast_tree = AST("10!|&^>=", formula)
+
+    return bool(ast_tree.eval())
