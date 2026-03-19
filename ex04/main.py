@@ -27,7 +27,20 @@ TEST_CASES = [
     "AB!C&|",    # (A | (!B & C))
     "AB|C>!",    # !( (A | B) ⇒ C )
 	"A",
-	"AB!|"
+	"AB!|",
+	"AB&CDE!|^=F&",
+	"ABCD|=>F|GH!^&",
+	"AB&!",
+	"AB>",
+	"AB=",
+	"A!B|B!A|&",
+	"AB&A!B!&|",
+	"AB^",
+	"AB&",
+	"AB|",
+	"AB&!",
+	"AB^!",
+	"A!B|"
 ]
 
 def main():

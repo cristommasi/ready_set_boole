@@ -1,6 +1,4 @@
 from beartype import beartype
-from beartype import beartype
-
 
 class AST:
      

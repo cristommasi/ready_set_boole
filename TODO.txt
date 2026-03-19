@@ -14,3 +14,34 @@ allocated simultaneously
 the length of a string, etc...)
 
 
+Symbol  Maths   Description
+
+A...Z   A..Z    Distinct variables
+!       ¬       Negation
+&       ∧       Conjunction
+|       ∨       Disjunction
+ˆ       ⊕       Exclusive disjunction
+>       ⇒       Material condition
+=       ⇔       Logical equivalence
+
+Elimination of double negation 
+    
+    (¬¬A) ⇔ A
+
+Material conditions
+
+    (A ⇒ B) ⇔ (¬A ∨ B)
+
+Equivalence
+
+    (A ⇔ B) ⇔ ((A ⇒ B) ∧ (B ⇒ A))
+
+De Morgan’s laws
+
+    ¬(A ∨ B) ⇔ (¬A ∧ ¬B)
+    ¬(A ∧ B) ⇔ (¬A ∨ ¬B)
+
+Distributivity
+
+    (A ∧ (B ∨ C)) ⇔ ((A ∧ B) ∨ (A ∧ C))
+    (A ∨ (B ∧ C)) ⇔ ((A ∨ B) ∧ (A ∨ C))
