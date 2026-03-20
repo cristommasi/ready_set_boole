@@ -1,94 +1,8 @@
 from beartype import beartype
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
+from utils import COLOR, MAX, AST
 
-class AST:
-     
-    class Node:
-        pass
-    
-    class ValueNode(Node):
-
-        def __init__(self, value):
-            self.value = value
-
-    class UnaryNode(Node):
-
-        def __init__(self, op, right):
-            self.op = op
-            self.right = right
-
-    class BinaryNode(Node):
-
-        def __init__(self, op, left, right):
-            self.op = op
-            self.left = left
-            self.right = right
-
-    def __init__(self, allowed: str, formula: str):
-
-        self.allowed = allowed
-        self.root = self.create(formula)
-        self.formulaSet = sorted({c for c in formula if c.isupper()})
-        self.formulaSetSize = len(self.formulaSet)
-        self.valuesDict = {}
-    
-    def assignValues(self, bValue: int):
-
-        for i, c in enumerate(self.formulaSet):
-            self.valuesDict[c] = (bValue >> (self.formulaSetSize - 1 - i)) & 1
-
-    def create(self, formula: str):
-        stack = []
-
-        for c in formula:
-
-            if c not in self.allowed:
-                raise ValueError(f"Error: Unknown Character: {c}")
-
-            if c.isupper():
-                stack.append(self.ValueNode(c))
-
-            elif c == '!':
-                if not stack:
-                    raise ValueError(f"Error: Malformed formula: {formula}")
-                right = stack.pop()
-                stack.append(self.UnaryNode(c, right))
-
-            else:
-                if len(stack) < 2:
-                    raise ValueError(f"Error: Malformed formula: {formula}")
-                right = stack.pop()
-                left = stack.pop()
-                stack.append(self.BinaryNode(c, left, right))
-
-        if len(stack) != 1:
-            raise ValueError(f"Error: Malformed formula: {formula}")
-
-        return stack[0]
-
-    def eval(self, node = None):
-
-        if isinstance(node, self.ValueNode):
-            return self.valuesDict[node.value]
-
-        if isinstance(node, self.UnaryNode):
-            return int(not self.eval(node.right))
-
-        if isinstance(node, self.BinaryNode):
-            left = self.eval(node.left)
-            right = self.eval(node.right)
-
-            if node.op == '&':
-                return left & right
-            if node.op == '|':
-                return left | right
-            if node.op == '^':
-                return left ^ right
-            if node.op == '>':
-                return int((not left) | right)
-            if node.op == '=':
-                return int(left == right)
-
-        raise ValueError("Unknown node type")
 
 
 @beartype
@@ -97,7 +11,7 @@ def print_truth_table(formula: str) -> None:
     if not isinstance(formula, str):
         raise ValueError("Inputs must be string")
     
-    ast_tree = AST("ABCDEFGHIJKLMNOPQRSTUVWXYZ!|&^>=", formula)
+    ast_tree = AST("VARS", "ABCDEFGHIJKLMNOPQRSTUVWXYZ!|&^>=", formula)
 
     header = ' | '.join(ast_tree.formulaSet) + ' | ='
     separator = '|'.join(['---'] * (ast_tree.formulaSetSize + 1))
@@ -105,8 +19,56 @@ def print_truth_table(formula: str) -> None:
     print(f"|{separator}|")
 
     for i in range(2 ** ast_tree.formulaSetSize):
+        
         ast_tree.assignValues(i)
         value = ast_tree.eval(ast_tree.root)
         row = ' | '.join(str(ast_tree.valuesDict[c]) for c in ast_tree.formulaSet)
         print(f"| {row} | {value} |")
 
+
+
+
+def main():
+	
+	TEST_CASES = [
+	    "AB&C|",     # (A & B) | C
+	    "AB&C^",     # (A & B) ^ C
+	    "A!",        # !A
+	    "AB|C&",     # (A | B) & C
+	    "ABC&&",     # A & B & C
+	    "AB|C|",     # A | B | C
+	    "AB>!",      # !(A ⇒ B)
+	    "AB=!",      # !(A ⇔ B)
+	    "ABC|^",     # A ^ (B | C)
+	    "AB!&",      # A & !B
+	    "AB!|",      # A | !B
+	    "AB>C&",    # (A ⇒ B) & C
+	    "ABC=>",     # (A & B) ⇒ C
+	    "AB^C^",     # A ^ B ^ C
+	    "AB!C&|",    # (A | (!B & C))
+	    "AB|C>!",    # !( (A | B) ⇒ C )
+		"A",
+		"AB!|",
+		"AB&!",
+		"AB>",
+		"AB=",
+		"A!B|B!A|&",
+		"AB&A!B!&|",
+		"AB^",
+		"AB&",
+		"AB|",
+		"AB&!",
+		"AB^!",
+		"A!B|"
+	]
+	for formula in TEST_CASES:
+
+		print(f'\n{COLOR.WB}{formula}{COLOR.RST}\n')
+		try:
+			print_truth_table(formula)
+		except ValueError as e:
+			print(f'\n{COLOR.WB}"{formula}"{COLOR.RST}\n\n{COLOR.RB}{e}{COLOR.RST}\n')
+
+
+if __name__ == "__main__":
+   main()
