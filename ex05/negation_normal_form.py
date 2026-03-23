@@ -90,7 +90,8 @@ def main():
 		"AB|!", # A!B!&
 		"AB>",  # A!B|
 		"AB=",  # AB&A!B!&|
-		"AB="   # A!B!&C!|
+		"AB=",  # A!B!&C!|
+        "AB&!C!|"
 	]
 	for formula in TEST_CASES:
 

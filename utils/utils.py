@@ -182,6 +182,7 @@ class AST:
         
         raise ValueError(f"Unknown node type in toRPN: {type(node)}")
 
+
     @beartype
     @staticmethod
     def print_truth_table(self, formula: str) -> None:
