@@ -84,7 +84,8 @@ def main():
 		"AB|C|D|", # ABCD|||
 		"AB&C&D&", # ABCD&&&
         "AB&!C!|", # A!B!C!||
-        "AB|!C!&"  # A!B!C!&&
+        "AB|!C!&",  # A!B!C!&&
+        "AB|!C!D&E|&"
 	]
 	for formula in TEST_CASES:
 

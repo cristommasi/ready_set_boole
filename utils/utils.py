@@ -182,9 +182,53 @@ class AST:
         
         raise ValueError(f"Unknown node type in toRPN: {type(node)}")
 
+    def distribute(self, left, right):
 
+        if isinstance(left, self.BinaryNode) and left.op == '&': # (A & B) | C  →  (A | C) & (B | C)
+
+            return self.BinaryNode('&', self.distribute(left.left, right), self.distribute(left.right, right))
+
+        if isinstance(right, self.BinaryNode) and right.op == '&': # A | (B & C)  →  (A | B) & (A | C)
+
+            return self.BinaryNode('&', self.distribute(left, right.left), self.distribute(left, right.right))
+
+
+        return self.BinaryNode('|', left, right)
+
+    def toCNF(self, node):
+
+        if isinstance(node, self.ValueNode): return node
+
+        if isinstance(node, self.UnaryNode): return node
+
+        if node.op == '&':
+
+            return self.BinaryNode('&', self.toCNF(node.left), self.toCNF(node.right))
+
+        if node.op == '|':
+
+            left  = self.toCNF(node.left)
+            right = self.toCNF(node.right)
+            return self.distribute(left, right)
+
+        raise ValueError(f"Unexpected operand in toCNF: {node.op}")
+
+    def sat(self, formula: str) -> bool:
+
+        if not isinstance(formula, str):
+            raise ValueError("Inputs must be string")
+
+        ast_tree = AST("VARS", "ABCDEFGHIJKLMNOPQRSTUVWXYZ!|&^>=", formula)
+        ast_tree.print_truth_table(formula)
+        for i in range(2 ** ast_tree.formulaSetSize):
+
+            ast_tree.assignValues(i)
+            value = ast_tree.eval(ast_tree.root)
+            if value == True:
+                  return True
+        return False
+    
     @beartype
-    @staticmethod
     def print_truth_table(self, formula: str) -> None:
 
         if not isinstance(formula, str):
