@@ -63,7 +63,7 @@ def toRPNFlatten(node):
     
     raise ValueError(f"Unknown node type in toRPNFlatten: {type(node)}")
 
-
+@beartype
 def conjunctive_normal_form(formula: str) -> str:
 
     if not isinstance(formula, str):

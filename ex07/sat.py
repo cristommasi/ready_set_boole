@@ -3,7 +3,7 @@ import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
 from utils import COLOR, AST
 
-
+@beartype
 def sat(formula: str) -> bool:
 
     if not isinstance(formula, str):
