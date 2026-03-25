@@ -24,6 +24,11 @@ A...Z   A..Z    Distinct variables
 >       ⇒       Material condition
 =       ⇔       Logical equivalence
 
+
+XOR law
+
+   A ⊕ B ≡ (A ∧ ¬B) ∨ (¬A ∧ B)
+
 Elimination of double negation 
     
     (¬¬A) ⇔ A
@@ -45,4 +50,95 @@ Distributivity
 
     (A ∧ (B ∨ C)) ⇔ ((A ∧ B) ∨ (A ∧ C))
     (A ∨ (B ∧ C)) ⇔ ((A ∨ B) ∧ (A ∨ C))
+
+
+Set Theory - Symbols
+
+∅: 
+    The empty set, the set with no elements.
+
+a ∈ B: 
+    "a in B" (it is true that a is an element of the set B)
+
+a !∈ B: 
+    "a not in B"
+
+∀a ∈ B: 
+    "For all a in B"" (the proposition is true for every value a in B)
+
+∃a ∈ B: 
+    "There exists a in B" (the proposition is true for at least one value a in B)
+
+A ⊆ B: 
+    A is a subset of B (all the elements of A are in B, and A may be equal to B itself)
+
+A !⊆ B:
+    A is not a subset of B (some elements of A are not in B)
+
+A ⊇ B: 
+    A is a superset of B (all the elements of B are in A, and A may be equal to B itself)
+
+A !⊇ B: 
+    A is not a superset of B (some elements of B are not in A)
+
+
+
+
+(Set Theory) - (Computer equivalent) - Name
+
+(A ∪ B) - (A | B) -	Union of Sets	
+
+    The union of sets creates an entirely new set by combining all of the components in the provided sets.	
+
+    A = {1, 2, 3, 4, 5}
+    B = {6, 7, 8, 9}
+    A ∪ B (A union B) = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+
+(A ∩ B)	- (A & B) - Intersection of Sets	
+
+    The common component of both sets is included in the intersection.	
+
+    A = { 4, 8, 1, 12}
+    B = {3, 8, 5, 12}
+    A ∩ B = {8, 12}
+
+
+(A ∆ B)	- (A ^ B)  Symmetric Difference of Sets
+
+    A Δ B = (A - B) U (B - A) denotes the symmetric difference.	
+
+    A = {13, 19, 25, 28, 37}
+    B = {13, 25, 55, 31}
+
+    A ∆ B = { 19, 28, 37, 55, 31}
+
+
+(Xc OR X') - (U ^ B) - Complement of a set    
+
+    A set's complement comprises all things that do not belong to the provided set.	
+
+    A = {3, 6, 8, 13, 15, 17, 18, 19, 22, 24}
+    B = {13, 15, 17, 18, 19}
+    X′ = A – B ⇒ X′ = {3, 6, 8, 22, 24}
+
+
+(A − B)	- (A & !B) - Set Difference
+    
+    The difference set is a set that contains items from one set that are not found in another.	
+
+    A = {12, 13, X,  15, ,X, X, 19}
+    B = {X,  13, 14, 15, 16, 17, X}
+    A - B = {12, 19}
+
+
+(A × B)	- () - Cartesian Product of Sets
+
+    A Cartesian product is the product of the ordered components of the sets.	
+
+    A = {4, 5, 6}
+    B = {r}
+
+    A × B = {(4, r), (5, r), (6, r)}
+
 

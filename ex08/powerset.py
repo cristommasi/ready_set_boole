@@ -1,28 +1,30 @@
 from beartype import beartype
+from beartype.typing import List, Set
 import os, sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
 from utils import COLOR, MAX
 
 
 @beartype
-def powerset(s: set) -> list[set]:
+def powerset(s: Set[int]) -> List[Set[int]]:
 
-    s = list(s)
+    s = List(s)
 
     for c in s:
-        if not isinstance(c, int) or c < 0 or c > MAX.U32:
+        if c < 0 or c > MAX.U32:
             raise ValueError("Inputs in sets must be 32bit unsigned integer and in range.")
     
     cardinal = len(s)
-    powersets = []
+    powersets: List[Set[int]] = []
 
-    for bit in range(2 ** cardinal):
+    for bit in range(1 << cardinal):
 
-        new_set = set()
+        new_set: Set[int] = set()
         for j in range(cardinal):
-            index = bit >> (cardinal - 1 - j)
-            if index & 1:
+
+            if (bit >> j) & 1:
                 new_set.add(s[j])
+                
         powersets.append(new_set)
 
     return powersets
