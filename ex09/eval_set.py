@@ -37,12 +37,12 @@ def main():
     for formula, sets in TEST_CASES:
 
         
-        print(f'\n{COLOR.W}{sets} - {COLOR.RST}{COLOR.WB}{formula}{COLOR.RST}', end="")
+        print(f'\n{COLOR.WB}{sets} - {COLOR.RST}{COLOR.WB}{formula}{COLOR.RST}', end="")
         resSET = eval_set(formula, sets)
 
         try:
             assert resSET == RES_CASES[i], f' -> {COLOR.R}{resSET}{COLOR.RST}{COLOR.B} <-- Expected {RES_CASES[i]}{COLOR.RST}\n'
-            print(f' -> {COLOR.B}{resSET}{COLOR.RST}\n')
+            print(f' -> {COLOR.BB}{resSET}{COLOR.RST}\n')
         except AssertionError as e:
             print(e)
         i += 1

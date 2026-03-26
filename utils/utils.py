@@ -174,7 +174,7 @@ class AST:
 		
 		raise ValueError(f"Unknown node type in toRPN: {type(node)}")
 
-	def flatten(self, node: Node, op: str) -> Node:
+	def flatten(self, node: Node, op: str) -> List[Node]:
 	
 		if isinstance(node, AST.BinaryNode) and node.op == op:
 			return self.flatten(node.left, op) + self.flatten(node.right, op)
@@ -325,7 +325,7 @@ def numToBinStr(num: int, bytes: int) -> str:
 @beartype
 def adder(a: int, b: int) -> int:
 
-	if not a or not b or a < 0 or b < 0 or a > MAX.U32 or b > MAX.U32:
+	if a < 0 or b < 0 or a > MAX.U32 or b > MAX.U32:
 		raise ValueError("Inputs must be 32bit unsigned integer and in range.")
 	
 	while b != 0:
@@ -338,7 +338,7 @@ def adder(a: int, b: int) -> int:
 @beartype
 def multiplier(a: int, b: int) -> int:
 	
-	if not a or not b or a < 0 or b < 0 or a > MAX.U32 or b > MAX.U32:
+	if a < 0 or b < 0 or a > MAX.U32 or b > MAX.U32:
 		raise ValueError("Inputs must be 32bit unsigned integer and in range.")
 	
 	RES = 0
@@ -355,7 +355,7 @@ def multiplier(a: int, b: int) -> int:
 @beartype
 def graycode(n: int) -> int:
 
-	if not n or n < 0 or n > MAX.U32:
+	if n < 0 or n > MAX.U32:
 		raise ValueError("Inputs must be 32bit unsigned integer and in range.")
 	
 	return (n ^(n >> 1)) & MAX.U32
