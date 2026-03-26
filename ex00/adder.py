@@ -1,23 +1,6 @@
-from beartype import beartype
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
-from utils import numToBinStr, COLOR, MAX
-
-
-
-@beartype
-def adder(a: int, b: int) -> int:
-
-    if not isinstance(a, int) or not isinstance(b, int) or a < 0 or b < 0 or a > MAX.U32 or b > MAX.U32:
-        raise ValueError("Inputs must be 32bit unsigned integer and in range.")
-    
-    while b != 0:
-        carry = ((a & b) << 1) & MAX.U32
-        a = (a ^ b) & MAX.U32
-        b = carry
-        
-    return a & MAX.U32
-
+from utils import numToBinStr, COLOR, MAX, adder
 
 
 def main():

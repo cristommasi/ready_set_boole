@@ -1,31 +1,6 @@
-from beartype import beartype
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
-from utils import COLOR, MAX, AST
-
-
-
-@beartype
-def print_truth_table(formula: str) -> None:
-
-    if not isinstance(formula, str):
-        raise ValueError("Inputs must be string")
-    
-    ast_tree = AST("VARS", "ABCDEFGHIJKLMNOPQRSTUVWXYZ!|&^>=", formula)
-
-    header = ' | '.join(ast_tree.formulaSet) + ' | ='
-    separator = '|'.join(['---'] * (ast_tree.formulaSetSize + 1))
-    print(f"| {header} |")
-    print(f"|{separator}|")
-
-    for i in range(2 ** ast_tree.formulaSetSize):
-        
-        ast_tree.assignValues(i)
-        value = ast_tree.eval(ast_tree.root)
-        row = ' | '.join(str(ast_tree.valuesDict[c]) for c in ast_tree.formulaSet)
-        print(f"| {row} | {value} |")
-
-
+from utils import COLOR, print_truth_table
 
 
 def main():

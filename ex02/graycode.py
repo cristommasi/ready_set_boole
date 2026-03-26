@@ -1,20 +1,6 @@
-from beartype import beartype
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
-from utils import numToBinStr, COLOR, MAX, adder
-
-
-
-@beartype
-def graycode(n: int) -> int:
-
-    if not isinstance(n, int) or n < 0 or n > MAX.U32:
-        raise ValueError("Inputs must be 32bit unsigned integer and in range.")
-    
-    return (n ^(n >> 1)) & MAX.U32
-
-
-
+from utils import numToBinStr, COLOR, MAX, graycode
 
 def main():
 

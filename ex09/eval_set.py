@@ -1,40 +1,51 @@
-from beartype import beartype
-from beartype.typing import List, Set
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
-from utils import COLOR, AST
-
-
-def eval_set(formula: str, sets: List[Set[int]]) -> Set[int]:
-
-
+from utils import COLOR, eval_set
 
 
 def main():
 
     TEST_CASES = [
-        {1, 2, 3},
-        {2, 3}
+        ("AB&", [{0, 1, 2}, {0, 3, 4}]),                          # {0}
+        ("AB|", [{0, 1, 2}, {3, 4, 5}]),                          # {0, 1, 2, 3, 4, 5}
+        ("A!",  [{0, 1, 2}]),                                     # {}
+        ("AB^", [{1, 2, 3}, {2, 3, 4}]),                          # {1, 4}
+        ("AB>", [{1, 2, 3}, {2, 3, 4}]),                          # {2,3,4}
+        ("AB=", [{1, 2, 3}, {1, 2, 3}]),                          # {1, 2, 3}
+        ("AB|C&", [{0, 1, 2}, {3, 4, 5}, {1, 3}]),                # {1,3}
+        ("AB&C|", [{0, 1, 2}, {0, 3, 4}, {5, 6}]),                # {0, 5, 6}
+        ("ABC||", [{0, 1}, {2, 3}, {4, 5}]),                      # {0,1,2,3,4,5}
+        ("AB!&", [{0, 1, 2}, {0, 1, 2}]),                         # {}
+        ("AB!&", [{0, 1, 2, 3}, {2, 3}]),                         # {0,1}
+        ("AB&CD&|", [{0,1,2}, {1,2,3}, {4,5}, {5,6}]),            # {1,2,5}
     ]
+    RES_CASES = [
+        {0},
+        {0, 1, 2, 3, 4, 5},
+        set(),
+        {1, 4},
+        {2,3,4},
+        {1, 2, 3},
+        {1,3},
+        {0, 5, 6},
+        {0,1,2,3,4,5},
+        set(),
+        {0,1},
+        {1,2,5}
+    ]
+    i = 0
+    for formula, sets in TEST_CASES:
 
-    for test_case in TEST_CASES:
+        
+        print(f'\n{COLOR.W}{sets} - {COLOR.RST}{COLOR.WB}{formula}{COLOR.RST}', end="")
+        resSET = eval_set(formula, sets)
 
-        print(f'\n{COLOR.WB}TEST_CASE = {test_case}{COLOR.RST}\n')
-        powersetLIST = eval_set(test_case)
-        for each_set in powersetLIST:
-
-            print('{', end="")
-            each_set = list(each_set)
-            cardinal = len(each_set)
-            for i in range(cardinal):
-                print(f'{each_set[i]}', end="")
-                if i + 1 != cardinal:
-                    print(",", end="")
-            else:
-                if cardinal == 0:
-                    print(' ', end="")
-
-            print('}')
+        try:
+            assert resSET == RES_CASES[i], f' -> {COLOR.R}{resSET}{COLOR.RST}{COLOR.B} <-- Expected {RES_CASES[i]}{COLOR.RST}\n'
+            print(f' -> {COLOR.B}{resSET}{COLOR.RST}\n')
+        except AssertionError as e:
+            print(e)
+        i += 1
 
 
 if __name__ == "__main__":

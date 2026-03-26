@@ -1,24 +1,6 @@
-from beartype import beartype
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
-from utils import COLOR, AST
-
-@beartype
-def sat(formula: str) -> bool:
-
-    if not isinstance(formula, str):
-        raise ValueError("Inputs must be string")
-    
-    ast_tree = AST("VARS", "ABCDEFGHIJKLMNOPQRSTUVWXYZ!|&^>=", formula)
-    ast_tree.print_truth_table(formula)
-    for i in range(2 ** ast_tree.formulaSetSize):
-
-        ast_tree.assignValues(i)
-        value = ast_tree.eval(ast_tree.root)
-        if value == True:
-              return True
-    return False
-
+from utils import COLOR, sat
 
 
 def main():

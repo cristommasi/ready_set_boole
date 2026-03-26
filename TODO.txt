@@ -27,7 +27,8 @@ A...Z   A..Z    Distinct variables
 
 XOR law
 
-   A ⊕ B ≡ (A ∧ ¬B) ∨ (¬A ∧ B)
+   (A ⊕ B) ⇔ (¬A ∧ B) ∨ (A ∧ ¬B) DNF
+   (A ⊕ B) ⇔ (A ∨ B) ∧ (¬A ∨ ¬B) CNF
 
 Elimination of double negation 
     
@@ -48,8 +49,8 @@ De Morgan’s laws
 
 Distributivity
 
-    (A ∧ (B ∨ C)) ⇔ ((A ∧ B) ∨ (A ∧ C))
-    (A ∨ (B ∧ C)) ⇔ ((A ∨ B) ∧ (A ∨ C))
+    (A ∧ (B ∨ C)) ⇔ ((A ∧ B) ∨ (A ∧ C)) DNF
+    (A ∨ (B ∧ C)) ⇔ ((A ∨ B) ∧ (A ∨ C)) CNF
 
 
 Set Theory - Symbols
@@ -86,7 +87,7 @@ A !⊇ B:
 
 (Set Theory) - (Computer equivalent) - Name
 
-(A ∪ B) - (A | B) -	Union of Sets	
+(A ∪ B) - (A ∨ B) - (A | B) -	Union of Sets	
 
     The union of sets creates an entirely new set by combining all of the components in the provided sets.	
 
@@ -95,7 +96,7 @@ A !⊇ B:
     A ∪ B (A union B) = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
 
-(A ∩ B)	- (A & B) - Intersection of Sets	
+(A ∩ B)	- (A ∧ B) - (A & B) - Intersection of Sets	
 
     The common component of both sets is included in the intersection.	
 
@@ -104,7 +105,7 @@ A !⊇ B:
     A ∩ B = {8, 12}
 
 
-(A ∆ B)	- (A ^ B)  Symmetric Difference of Sets
+(A ∆ B)	- (A ⊕ B) - (A ^ B)  Symmetric Difference of Sets
 
     A Δ B = (A - B) U (B - A) denotes the symmetric difference.	
 
@@ -114,7 +115,7 @@ A !⊇ B:
     A ∆ B = { 19, 28, 37, 55, 31}
 
 
-(Xc OR X') - (U ^ B) - Complement of a set    
+(Ac or A') - (¬A) - (!A) - Complement of a set    
 
     A set's complement comprises all things that do not belong to the provided set.	
 
@@ -123,7 +124,7 @@ A !⊇ B:
     X′ = A – B ⇒ X′ = {3, 6, 8, 22, 24}
 
 
-(A − B)	- (A & !B) - Set Difference
+(A − B)	- (A ∧ ¬B) - (A & !B) - Set Difference
     
     The difference set is a set that contains items from one set that are not found in another.	
 

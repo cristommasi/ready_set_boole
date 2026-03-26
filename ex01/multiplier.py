@@ -1,29 +1,6 @@
-from beartype import beartype
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
-from utils import numToBinStr, COLOR, MAX, adder
-
-
-
-
-@beartype
-def multiplier(a: int, b: int) -> int:
-    
-    if not isinstance(a, int) or not isinstance(b, int) or a < 0 or b < 0 or a > MAX.U32 or b > MAX.U32:
-        raise ValueError("Inputs must be 32bit unsigned integer and in range.")
-    
-    RES = 0
-    while b != 0:
-
-        if b & 1:
-            RES = adder(RES, a)
-            
-        a = (a << 1) & MAX.U32
-        b = b >> 1
-
-    return RES & MAX.U32
-
-
+from utils import numToBinStr, COLOR, MAX, multiplier
 
 
 def main():
