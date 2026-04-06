@@ -14,6 +14,7 @@ class COLOR:
 
 
 class MAX:
+	U16: int = 65535
 	U32: int = 4294967295
 	U64: int = 18446744073709551615
 
@@ -469,5 +470,13 @@ def eval_set(formula: str, sets: List[Set[int]]) -> Set[int]:
 	return ast_tree.evalS(ast_tree.root)
 
 
+@beartype
+def map(x: int, y: int) -> float:
+
+    if x < 0 or x > MAX.U16 or y < 0 or y > MAX.U16:
+        raise ValueError("Inputs must be in 16bit unsigned integer range.")
+    
+    combined = (x << 16) | y
+    return combined / MAX.U32
 
 
