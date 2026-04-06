@@ -1,5 +1,5 @@
 from beartype import beartype
-from beartype.typing import List, Set
+from beartype.typing import List, Set, Tuple
 
 class COLOR:
 	RST   = "\033[0m"
@@ -473,10 +473,27 @@ def eval_set(formula: str, sets: List[Set[int]]) -> Set[int]:
 @beartype
 def map(x: int, y: int) -> float:
 
-    if x < 0 or x > MAX.U16 or y < 0 or y > MAX.U16:
-        raise ValueError("Inputs must be in 16bit unsigned integer range.")
-    
-    combined = (x << 16) | y
-    return combined / MAX.U32
+	if x < 0 or x > MAX.U16 or y < 0 or y > MAX.U16:
+		raise ValueError("Inputs must be in 16bit unsigned integer range.")
+	
+	combined = 0
+	for i in range(16):
+		combined |= (((x >> i) & 1) << (2 * i))
+		combined |= ((y >> i) & 1) << (2 * i + 1)
 
+	return combined / MAX.U32
+
+
+@beartype
+def reverse_map(n: float) -> Tuple[int, int]:
+
+	converted: int = round(n * MAX.U32)
+
+	x = 0
+	y = 0
+	for i in range(16):
+		x |= ((converted >> (2 * i)) & 1) << i
+		y |= ((converted >> (2 * i + 1)) & 1) << i
+
+	return (x, y)
 

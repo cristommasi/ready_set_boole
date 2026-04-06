@@ -12,7 +12,7 @@ def main():
         [1, 0],
         [0, 1],
         [2, 3],
-        [3, 2]
+        [3, 2],
     ]
 
     for sets in TEST_CASES:
@@ -22,12 +22,11 @@ def main():
         print(f'{COLOR.WB}map({x}, {y}){COLOR.RST}\n')
         print(f'{numToBinStr(x, 32)} = x: u16')
         print(f'{numToBinStr(y, 32)} = y: u16')
-        # print(f'\n{COLOR.WB}{sets} - {COLOR.RST}{COLOR.WB}{formula}{COLOR.RST}', end="")
         resSET = map(x, y)
 
         try:
             print('-----------------------------------------------------------------------')
-            print(f'{numToBinStr((x << 16) | y, 32)} = R: U32')
+            print(f'{numToBinStr(round(resSET * MAX.U32), 32)} = R: U32')
             print(f'{COLOR.BB}({resSET}) = R: F64{COLOR.RST}\n')
         except AssertionError as e:
             print(e)
