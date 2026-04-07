@@ -448,7 +448,7 @@ def powerset(s: set[int]) -> list[set[int]]:
 
 			if (bit >> j) & 1:
 				new_set.add(s[j])
-				
+
 		powersets.append(new_set)
 
 	return powersets
