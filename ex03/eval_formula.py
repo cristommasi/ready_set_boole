@@ -1,6 +1,6 @@
 import sys, os
-sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
-from utils import COLOR, eval_formula
+sys.path.append(os.path.join(os.path.dirname(__file__), '../rsb_lib'))
+from rsb_lib import COLOR, eval_formula
 
 
 def main():
@@ -54,9 +54,7 @@ def main():
 			("1011||=",   True),
 		],
 		"Longer testcases": [
-			("10&01|1111^!|&!>!|", True),
-			("11&11|1001^!&&!>!^", None),  # unknown expected
-			("1011|=>1|00!^&",     None),  # unknown expected
+			("10&01|1111^!|&!>!|", True)
 		],
 	}
 	 

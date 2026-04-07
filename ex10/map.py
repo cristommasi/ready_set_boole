@@ -1,7 +1,7 @@
 import sys, os
 from beartype  import beartype
-sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
-from utils import COLOR, MAX, numToBinStr, map
+sys.path.append(os.path.join(os.path.dirname(__file__), '../rsb_lib'))
+from rsb_lib import COLOR, MAX, numToBinStr, map
 
 
 def main():

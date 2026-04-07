@@ -1,5 +1,5 @@
 from beartype import beartype
-from beartype.typing import List, Set, Tuple
+
 
 class COLOR:
 	RST   = "\033[0m"
@@ -50,7 +50,7 @@ class AST:
 		self.formulaSet = sorted({c for c in formula if c.isupper() or c == '1' or c == '0'})
 		self.formulaSetSize = len(self.formulaSet)
 		self.valuesDict = {}
-		self.universalSet: Set[int] = set()
+		self.universalSet: set[int] = set()
 
 	def create(self, formula: str) -> Node:
 		stack = []
@@ -175,7 +175,7 @@ class AST:
 		
 		raise ValueError(f"Unknown node type in toRPN: {type(node)}")
 
-	def flatten(self, node: Node, op: str) -> List[Node]:
+	def flatten(self, node: Node, op: str) -> list[Node]:
 	
 		if isinstance(node, AST.BinaryNode) and node.op == op:
 			return self.flatten(node.left, op) + self.flatten(node.right, op)
@@ -273,7 +273,7 @@ class AST:
 
 		raise ValueError(f"Unexpected operand in toCNF: {node.op}")
 
-	def assignSetValues(self, sets: List[Set[int]]):
+	def assignSetValues(self, sets: list[set[int]]):
 
 		if len(sets) != self.formulaSetSize:
 			raise ValueError(f'Malformed sets')
@@ -281,13 +281,13 @@ class AST:
 		for i, s in enumerate(self.formulaSet):
 			self.valuesDict[s] = sets[i]
 	
-	def assignUniversalSet(self, sets: List[Set[int]]):
+	def assignUniversalSet(self, sets: list[set[int]]):
 
 		for s in sets:
 			for elem in s:
 				self.universalSet.add(elem)
 
-	def evalS(self, node: Node = None) -> Set[int]:
+	def evalS(self, node: Node = None) -> set[int]:
 		
 		if node is None: node = self.root
 
@@ -430,20 +430,20 @@ def sat(formula: str) -> bool:
 	return False
 
 @beartype
-def powerset(s: Set[int]) -> List[Set[int]]:
+def powerset(s: set[int]) -> list[set[int]]:
 
-	s = List(s)
+	s = list(s)
 
 	for c in s:
 		if c < 0 or c > MAX.U32:
 			raise ValueError("Inputs in sets must be 32bit unsigned integer and in range.")
 	
 	cardinal = len(s)
-	powersets: List[Set[int]] = []
+	powersets: list[set[int]] = []
 
 	for bit in range(1 << cardinal):
 
-		new_set: Set[int] = set()
+		new_set: set[int] = set()
 		for j in range(cardinal):
 
 			if (bit >> j) & 1:
@@ -454,7 +454,7 @@ def powerset(s: Set[int]) -> List[Set[int]]:
 	return powersets
 
 @beartype
-def eval_set(formula: str, sets: List[Set[int]]) -> Set[int]:
+def eval_set(formula: str, sets: list[set[int]]) -> set[int]:
 
 	if not formula:
 		raise ValueError("Formula cannot be empty")
@@ -469,7 +469,6 @@ def eval_set(formula: str, sets: List[Set[int]]) -> Set[int]:
 	ast_tree.assignUniversalSet(sets)
 	return ast_tree.evalS(ast_tree.root)
 
-
 @beartype
 def map(x: int, y: int) -> float:
 
@@ -483,11 +482,10 @@ def map(x: int, y: int) -> float:
 
 	return combined / MAX.U32
 
-
 @beartype
-def reverse_map(n: float) -> Tuple[int, int]:
+def reverse_map(n: float) -> tuple[int, int]:
 
-	converted: int = round(n * MAX.U32)
+	converted: int = int(n * MAX.U32)
 
 	x = 0
 	y = 0

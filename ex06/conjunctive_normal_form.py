@@ -1,6 +1,6 @@
 import sys, os
-sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
-from utils import COLOR, AST, conjunctive_normal_form
+sys.path.append(os.path.join(os.path.dirname(__file__), '../rsb_lib'))
+from rsb_lib import COLOR, AST, conjunctive_normal_form
 
 
 def main():

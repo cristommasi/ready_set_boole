@@ -1,6 +1,6 @@
 import sys, os
-sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
-from utils import numToBinStr, COLOR, MAX, adder
+sys.path.append(os.path.join(os.path.dirname(__file__), '../rsb_lib'))
+from rsb_lib import numToBinStr, COLOR, MAX, adder
 
 
 def main():

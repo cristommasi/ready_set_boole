@@ -1,6 +1,6 @@
 import os, sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
-from utils import COLOR, MAX, powerset
+sys.path.append(os.path.join(os.path.dirname(__file__), '../rsb_lib'))
+from rsb_lib import COLOR, MAX, powerset
 
 
 def main():
